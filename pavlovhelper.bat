@@ -49,12 +49,21 @@ echo 1: Quick Rename
 echo 2: Stage Map With Launch
 echo 3: Download Latest Workshop Map With Launch (Public)
 echo 4: Download Latest Workshop Map With Launch (Private - Requires Second Account)
+echo 0: Download SteamCMD Zip File
 
-choice /C 1234 /N /M "Enter Choice"
+choice /C 12340 /N /M "Enter Choice"
 if errorlevel 4 goto 4
 if errorlevel 3 goto 3
 if errorlevel 2 goto 2
 if errorlevel 1 goto 1
+if errorlevel 0 goto 0
+::--------------------------------------------------------------------------------
+
+
+::--------------------------------------------------------------------------------
+:0
+echo Attempting to download steamcmd.zip to this location...
+bitsadmin /transfer "steamcmd" https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip %~dp0steamcmd.zip
 ::--------------------------------------------------------------------------------
 
 
