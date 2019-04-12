@@ -27,7 +27,7 @@ set staging_path=
 set ugc=
 ::------------------------------------------------------------------------
 
-::Secondary Account Settings (Optional)
+::Secondary Account Settings (Optional - Must own Pavlov)
 ::------------------------------------------------------------------------
 ::Username
 set username=
@@ -47,12 +47,14 @@ echo                                              |_|
 echo ==============================================================
 echo 1: Quick Rename
 echo 2: Stage Map With Launch
-echo 3: Download Latest Workshop Map With Launch
+echo 3: Download Latest Workshop Map With Launch (Public)
+echo 4: Download Latest Workshop Map With Launch (Private - Requires Second Account)
 
-CHOICE /C 123 /N /M "Enter Choice"
-IF ERRORLEVEL 3 GOTO 3
-IF ERRORLEVEL 2 GOTO 2
-IF ERRORLEVEL 1 GOTO 1
+choice /C 1234 /N /M "Enter Choice"
+if errorlevel 4 goto 4
+if errorlevel 3 goto 3
+if errorlevel 2 goto 2
+if errorlevel 1 goto 1
 ::--------------------------------------------------------------------------------
 
 
@@ -75,7 +77,7 @@ if exist "%staging_path%\pakchunk-workshop.pak" (
 
 echo Renaming new pak file...
 rename "%staging_path%\Pavlov-WindowsNoEditor_P.pak" pakchunk-workshop.pak
-IF ERRORLEVEL 1 (
+if errorlevel 1 (
     echo Failed to rename pak, exiting script! && pause && goto eof
 ) else (
     echo File succesfully renamed!
@@ -88,9 +90,9 @@ goto eof
 
 ::--------------------------------------------------------------------------------
 :2
-CHOICE /M "Are you SURE you saved ALL?  Forced Unreal shutdown will happen!"
-IF ERRORLEVEL 2 echo Exiting script! && pause && goto eof
-IF ERRORLEVEL 1 echo Moving on...
+choice /M "Are you SURE you saved ALL?  Forced Unreal shutdown will happen!"
+if errorlevel 2 echo Exiting script! && pause && goto eof
+if errorlevel 1 echo Moving on...
 
 echo Checking for new .pak file...
 if exist "%staging_path%\Pavlov-WindowsNoEditor_P.pak" (
@@ -109,7 +111,7 @@ if exist "%staging_path%\pakchunk-workshop.pak" (
 
 echo Renaming new pak file...
 rename "%staging_path%\Pavlov-WindowsNoEditor_P.pak" pakchunk-workshop.pak
-IF ERRORLEVEL 1 (
+if errorlevel 1 (
     echo Failed to rename pak, exiting script! && pause && goto eof
 ) else (
     echo File succesfully renamed!
@@ -135,9 +137,9 @@ goto eof
 
 ::--------------------------------------------------------------------------------
 :3
-CHOICE /M "Are you SURE you saved ALL?  Forced Unreal shutdown will happen!"
-IF ERRORLEVEL 2 echo Exiting script! && pause && goto eof
-IF ERRORLEVEL 1 echo Moving on...
+choice /M "Are you SURE you saved ALL?  Forced Unreal shutdown will happen!"
+if errorlevel 2 echo Exiting script! && pause && goto eof
+if errorlevel 1 echo Moving on...
 
 echo Killing Unreal Engine...
 taskkill /F /IM UE4Editor.exe
@@ -151,7 +153,49 @@ if exist "%staging_path%\pakchunk-workshop.pak" (
 )
 
 start /WAIT %steamcmd_binary% +login anonymous +force_install_dir %steam_root% +workshop_download_item 555160 %ugc% +quit
-IF ERRORLEVEL 1 (
+if errorlevel 1 (
+    echo Workshop update failed! && pause && goto eof
+) else (
+    echo Workshop file successfully downloaded!
+)
+
+echo Starting Pavlov in %delay% seconds!
+timeout %delay%
+
+echo Starting Pavlov...
+start /WAIT steam://rungameid/555160
+
+timeout 1
+echo Starting Unreal Engine...
+start %ue_binary%
+
+pause
+goto eof
+::--------------------------------------------------------------------------------
+
+
+::--------------------------------------------------------------------------------
+:4
+if %username%=="" echo Username not set! && pause && goto eof
+if %password%=="" echo Password not set! && pause && goto eof
+
+CHOICE /M "Are you SURE you saved ALL?  Forced Unreal shutdown will happen!"
+if errorlevel 2 echo Exiting script! && pause && goto eof
+if errorlevel 1 echo Moving on...
+
+echo Killing Unreal Engine...
+taskkill /F /IM UE4Editor.exe
+
+echo Checking for old .pak file...
+if exist "%staging_path%\pakchunk-workshop.pak" (
+    echo Old .pak file found, attempting to delete...
+    del /f "%staging_path%\pakchunk-workshop.pak"
+) else (
+    echo No old .pak file found!
+)
+
+start /WAIT %steamcmd_binary% +login %username% %password% +force_install_dir %steam_root% +workshop_download_item 555160 %ugc% +quit
+if errorlevel 1 (
     echo Workshop update failed! && pause && goto eof
 ) else (
     echo Workshop file successfully downloaded!
