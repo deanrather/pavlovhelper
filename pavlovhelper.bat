@@ -9,49 +9,50 @@
 ::Basic Settings (Required)
 ::------------------------------------------------------------------------
 ::Where the SteamCMD.exe file is located
-set steamcmd_binary=
+set steamcmd_binary=C:\Users\marsh\Desktop\SteamCMD\steamcmd.exe
+
 
 ::The PARENT folder of your "steamapps" folder where Pavlov is installed
-set steam_root=
+set steam_root=E:\Steam
 
 ::Where your Unreal Engine binary is located
-set ue_binary=
+set ue_binary=E:\UE_4.21\Engine\Binaries\Win64\UE4Editor.exe
 
 ::How long you want to wait before starting Pavlov (may vary by system)
 set delay=7
 
 ::Staging .pak path
-set staging_path=
+set staging_path=E:\Steam\steamapps\common\PavlovVR\Pavlov\Content\Paks
 
 ::UGC number
-set ugc=
+set ugc=1709210547
 ::------------------------------------------------------------------------
 
 ::Secondary Account Settings (Optional - Must own Pavlov)
 ::------------------------------------------------------------------------
 ::Username
-set username=
+set username=blah
 
 ::Password
-set password=
+set password=blah
 ::------------------------------------------------------------------------
 
 ::--------------------------------------------------------------------------------
-echo ==============================================================
-echo  ____             _              _   _      _                 
-echo |  _ \ __ ___   _| | _____   __ | | | | ___| |_ __   ___ _ __ 
-echo | |_) / _` \ \ / / |/ _ \ \ / / | |_| |/ _ \ | '_ \ / _ \ '__|
-echo |  __/ (_| |\ V /| | (_) \ V /  |  _  |  __/ | |_) |  __/ |   
-echo |_|   \__,_| \_/ |_|\___/ \_/   |_| |_|\___|_| .__/ \___|_|   
-echo                                              |_|              
-echo ==============================================================
+echo "=============================================================="
+echo " ____             _              _   _      _                 "
+echo "|  _ \ __ ___   _| | _____   __ | | | | ___| |_ __   ___ _ __ "
+echo "| |_) / _` \ \ / / |/ _ \ \ / / | |_| |/ _ \ | '_ \ / _ \ '__|"
+echo "|  __/ (_| |\ V /| | (_) \ V /  |  _  |  __/ | |_) |  __/ |   "
+echo "|_|   \__,_| \_/ |_|\___/ \_/   |_| |_|\___|_| .__/ \___|_|   "
+echo "                                             |_|              "
+echo "=============================================================="
 echo 1: Quick Rename
 echo 2: Stage Map With Launch
 echo 3: Download Latest Workshop Map With Launch (Public)
 echo 4: Download Latest Workshop Map With Launch (Private - Requires Second Account)
 echo 0: Download SteamCMD Zip File
 
-choice /C 12340 /N /M "Enter Choice"
+CHOICE /C 12340 /N /M "Enter Choice"
 if errorlevel 4 goto 4
 if errorlevel 3 goto 3
 if errorlevel 2 goto 2
