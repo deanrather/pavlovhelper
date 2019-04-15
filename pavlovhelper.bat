@@ -1,8 +1,8 @@
 @echo off
 ::------------------------------------------------------------------------
 ::Created by: Marshall
-::Version: 0.1
-::Last updated: 4/12/2019
+::Version: 0.2
+::Last updated: 4/14/2019
 ::Steamcmd URL: https://developer.valvesoftware.com/wiki/SteamCMD
 ::------------------------------------------------------------------------
 
@@ -38,33 +38,21 @@ set password=blah
 ::------------------------------------------------------------------------
 
 ::--------------------------------------------------------------------------------
-echo "=============================================================="
-echo " ____             _              _   _      _                 "
-echo "|  _ \ __ ___   _| | _____   __ | | | | ___| |_ __   ___ _ __ "
-echo "| |_) / _` \ \ / / |/ _ \ \ / / | |_| |/ _ \ | '_ \ / _ \ '__|"
-echo "|  __/ (_| |\ V /| | (_) \ V /  |  _  |  __/ | |_) |  __/ |   "
-echo "|_|   \__,_| \_/ |_|\___/ \_/   |_| |_|\___|_| .__/ \___|_|   "
-echo "                                             |_|              "
-echo "=============================================================="
-echo 1: Quick Rename
+echo =================
+echo //Pavlov Helper\\                                                                                         
+echo =================
+echo 1: Quick Rename (Staged Map)
 echo 2: Stage Map With Launch
 echo 3: Download Latest Workshop Map With Launch (Public)
 echo 4: Download Latest Workshop Map With Launch (Private - Requires Second Account)
-echo 0: Download SteamCMD Zip File
+echo 9: Download SteamCMD Zip File
 
-CHOICE /C 12340 /N /M "Enter Choice"
+CHOICE /C 12349 /N /M "Enter Choice"
+if errorlevel 5 goto 9
 if errorlevel 4 goto 4
 if errorlevel 3 goto 3
 if errorlevel 2 goto 2
 if errorlevel 1 goto 1
-if errorlevel 0 goto 0
-::--------------------------------------------------------------------------------
-
-
-::--------------------------------------------------------------------------------
-:0
-echo Attempting to download steamcmd.zip to this location...
-bitsadmin /transfer "steamcmd" https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip %~dp0steamcmd.zip
 ::--------------------------------------------------------------------------------
 
 
@@ -223,4 +211,10 @@ start %ue_binary%
 
 pause
 goto eof
+::--------------------------------------------------------------------------------
+
+::--------------------------------------------------------------------------------
+:9
+echo Attempting to download steamcmd.zip to this location...
+bitsadmin /transfer "steamcmd" https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip %~dp0steamcmd.zip
 ::--------------------------------------------------------------------------------
